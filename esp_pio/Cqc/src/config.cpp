@@ -1,14 +1,14 @@
 #include "config.h"
 
 
-int Leds::BLUE = 15;
-int Leds::GREEN = 13;
-int Leds::YELLOW = 12;
-int Leds::RED = 14;
+int Leds::BLUE = 12;
+int Leds::GREEN = 14;
+int Leds::YELLOW = 15;
+int Leds::RED = 13;
 
-int Buttons::BLUE = 2;
-int Buttons::GREEN = 0;
-int Buttons::YELLOW = 4;
-int Buttons::RED = 5;
+int Buttons::BLUE = 10;
+int Buttons::GREEN = 16;
+int Buttons::YELLOW = 17;
+int Buttons::RED = 11;
 
 const int SHORT_PRESS_TIME = 500;

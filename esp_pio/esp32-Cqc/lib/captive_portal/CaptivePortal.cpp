@@ -67,6 +67,7 @@ void CaptivePortalSetup()
     {
         File conf_file = LittleFS.open("/wifi_conf", "r");
         DeserializationError error = deserializeJson(config_data, conf_file);
+        conf_file.close();
         if (!error)
         {
             WiFi.mode(WIFI_STA);

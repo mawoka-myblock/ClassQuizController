@@ -18,6 +18,7 @@ unsigned long red_button_press_time = 0;
 
 void long_blink(int pin)
 {
+    Serial.println("LongBlinlk");
     digitalWrite(pin, HIGH);
     delay(600);
     digitalWrite(pin, LOW);
@@ -25,6 +26,7 @@ void long_blink(int pin)
 
 void short_blink(int pin)
 {
+    Serial.println("ShortBlink");
     digitalWrite(pin, HIGH);
     delay(300);
     digitalWrite(pin, LOW);

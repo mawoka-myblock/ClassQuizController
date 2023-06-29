@@ -4,6 +4,8 @@
 #include "CaptivePortal.h"
 #include "InitialSetup.h"
 #include <WebSocketsClient.h>
+#include "Blink.h"
+#include "OtaUpdate.h"
 
 WiFiClientSecure client;
 StaticJsonDocument<192> doc;
@@ -25,9 +27,15 @@ void setup()
     pinMode(Buttons::YELLOW, INPUT_PULLUP);
     pinMode(Buttons::RED, INPUT_PULLUP);
     LittleFS.begin(true);
+    if (digitalRead(Buttons::BLUE) != HIGH && digitalRead(Buttons::RED) != HIGH && digitalRead(Buttons::GREEN) != HIGH && digitalRead(Buttons::YELLOW) != HIGH) {
+        LittleFS.format();
+        Serial.println("Formatted flash");
+        ESP.restart();
+    }
     CaptivePortalSetup();
     client.setInsecure();
     RunInitialSetup();
+    RunOTAUpdateIfAvailable();
 }
 
 void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
@@ -69,7 +77,10 @@ void webSocketEvent(WStype_t type, uint8_t *payload, size_t length)
 
 void loop()
 {
+    blink_all(1000);
     String code = get_code_as_str(6);
+    blink_all(100);
+    delay(100);
     File cred_file = LittleFS.open("/creds", "r");
     deserializeJson(config_read, cred_file);
     cred_file.close();
@@ -77,6 +88,7 @@ void loop()
     doc["secret_key"] = config_read["secret_key"];
     doc["code"] = code;
     HTTPClient http;
+    // http.begin(client, "https://classquiz.de/api/v1/box-controller/embedded/join");
     http.begin(client, "https://mawoka-myblock.gh.srv.us/api/v1/box-controller/embedded/join");
     http.addHeader("Content-Type", "application/json");
     String payload;
@@ -85,6 +97,12 @@ void loop()
     Serial.println(respCode);
     if (respCode != 200)
     {
+        blink_all(100);
+        delay(100);
+        blink_all(100);
+        delay(100);
+        blink_all(100);
+        delay(300);
         return;
     }
     deserializeJson(join_response, http.getStream());
@@ -93,13 +111,20 @@ void loop()
     String connection_id = join_response["id"];
     ws_url += connection_id;
     Serial.println("DONE WITH REQUEST");
-    // webSocket.beginSSL("mawoka-myblock.gh.srv.us", 443, ws_url);
-    webSocket.begin("192.168.178.103", 8080, ws_url, "");
+    // webSocket.beginSSL("classquiz.de", 443, ws_url);
+    webSocket.begin("192.168.2.243", 8080, ws_url, "");
     webSocket.onEvent(webSocketEvent);
     int neutral_button = digitalRead(Buttons::BLUE);
+    blink_all(100);
 
     while (keepConnection)
     {
+        if (digitalRead(Buttons::BLUE) != neutral_button && digitalRead(Buttons::RED) != neutral_button && digitalRead(Buttons::GREEN) != neutral_button && digitalRead(Buttons::YELLOW) != neutral_button)
+        {
+            blink_all(300);
+            delay(300);
+            return;
+        }
         webSocket.loop();
         if (digitalRead(Buttons::BLUE) != neutral_button)
         {
