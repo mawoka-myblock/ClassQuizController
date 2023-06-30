@@ -1,0 +1,2 @@
+# ClassQuizController
+Use a microcontroller (the ESP32) to play ClassQuiz with physical buttons! This repo includes the platformio code under `src/` and some other irrelevant files. Updates are pulled from the GitHub releases of this repository.

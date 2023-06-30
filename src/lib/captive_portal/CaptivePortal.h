@@ -7,6 +7,7 @@
 #include <ArduinoJson.h>
 #include <AsyncJson.h>
 #include <LittleFS.h>
+#include <improv.h>
 
 
 void CaptivePortalSetup();
