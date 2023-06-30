@@ -31,7 +31,7 @@ void RunOTAUpdateIfAvailable()
     client.setInsecure();
     const char *id = config_read_setup_for_update["id"];
     const char *secret_key = config_read_setup_for_update["secret_key"];
-    String url = "https://mawoka-myblock.gh.srv.us/api/v1/box-controller/embedded/update?id=";
+    String url = "https://classquiz.de/api/v1/box-controller/embedded/update?id=";
     url += id;
     url += "&secret_key=";
     url += secret_key;

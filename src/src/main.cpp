@@ -89,7 +89,7 @@ void loop()
     doc["code"] = code;
     HTTPClient http;
     // http.begin(client, "https://classquiz.de/api/v1/box-controller/embedded/join");
-    http.begin(client, "https://mawoka-myblock.gh.srv.us/api/v1/box-controller/embedded/join");
+    http.begin(client, "https://classquiz.de/api/v1/box-controller/embedded/join");
     http.addHeader("Content-Type", "application/json");
     String payload;
     serializeJson(doc, payload);
@@ -111,8 +111,7 @@ void loop()
     String connection_id = join_response["id"];
     ws_url += connection_id;
     Serial.println("DONE WITH REQUEST");
-    // webSocket.beginSSL("classquiz.de", 443, ws_url);
-    webSocket.begin("192.168.2.243", 8080, ws_url, "");
+    webSocket.beginSSL("classquiz.de", 443, ws_url);
     webSocket.onEvent(webSocketEvent);
     int neutral_button = digitalRead(Buttons::BLUE);
     blink_all(100);

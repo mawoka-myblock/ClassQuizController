@@ -15,7 +15,7 @@ void RunInitialSetup()
         client.setInsecure();
         const char* id = config_read_setup["id"];
         const char* secret_key = config_read_setup["secret_key"];
-        String url = "https://mawoka-myblock.gh.srv.us/api/v1/box-controller/embedded/ping?id=";
+        String url = "https://classquiz.de/api/v1/box-controller/embedded/ping?id=";
         url += id;
         url += "&secret_key=";
         url += secret_key;
@@ -40,7 +40,7 @@ void RunInitialSetup()
         client.setInsecure();
         String code = get_code_as_str(10);
         Serial.println(code);
-        http.begin(client, "https://mawoka-myblock.gh.srv.us/api/v1/box-controller/embedded/register");
+        http.begin(client, "https://classquiz.de/api/v1/box-controller/embedded/register");
         http.addHeader("Content-Type", "application/json");
         String payload = "{\"code\":\"";
         payload += code;
